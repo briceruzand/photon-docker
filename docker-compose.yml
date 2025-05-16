@@ -1,16 +1,20 @@
 services:
-    photon:
-        image: rtuszik/photon-docker:latest
-        container_name: "photon-docker"
-        environment:
-            - UPDATE_STRATEGY=PARALLEL
-            - UPDATE_INTERVAL=24h
-            - LOG_LEVEL=INFO # Options: DEBUG, INFO, ERROR
-            # - COUNTRY_CODE=zw
-        volumes:
-            - photon_data:/photon/photon_data
-        restart: unless-stopped
-        ports:
-            - "2322:2322"
+  photon:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    image: local/photon:latest
+    environment:
+      - UPDATE_STRATEGY=PARALLEL
+      - UPDATE_INTERVAL=24h
+      - LOG_LEVEL=INFO # Options: DEBUG, INFO, ERROR
+      # - COUNTRY_CODE=fr
+    volumes:
+      - photon_data:/photon/photon_data
+    restart: unless-stopped
+    ports:
+      - "2322:2322"
+      - "9200:9200"
 volumes:
-    photon_data:
+  photon_data:
